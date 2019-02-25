@@ -1,7 +1,7 @@
 package br.com.curso.apispringboot.apispringboot.service;
 
 import br.com.curso.apispringboot.apispringboot.domain.Categoria;
-import br.com.curso.apispringboot.apispringboot.repository.CategoriaRepository;
+import br.com.curso.apispringboot.apispringboot.repositories.CategoriaRepository;
 import br.com.curso.apispringboot.apispringboot.service.Exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
