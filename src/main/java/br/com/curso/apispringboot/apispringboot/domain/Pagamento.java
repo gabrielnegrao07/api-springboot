@@ -1,6 +1,7 @@
 package br.com.curso.apispringboot.apispringboot.domain;
 
 import br.com.curso.apispringboot.apispringboot.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public abstract class Pagamento implements Serializable {
 
 //    Esse MapsId serve para usar o mesmo id do pedido para o id do pagamento. A chave primária do pagamento também é
 //    sua chave estrangeira.
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

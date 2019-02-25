@@ -1,5 +1,7 @@
 package br.com.curso.apispringboot.apispringboot.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -10,7 +12,9 @@ public class ItemPedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
 //  Não entendi porque preciso instanciar o objeto.
-//  Essa anotação serve porque o id da classe é um id embutido em um tipo auxiliar.
+//  Essa anotação EmbeddedId serve porque o id da classe é um id embutido em um tipo auxiliar.
+//    O JsonIgnore serve para não serializar o pedido e nem o produto
+    @JsonIgnore
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -29,6 +33,7 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }
