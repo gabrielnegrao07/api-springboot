@@ -21,11 +21,9 @@ public class Pedido implements Serializable {
     private Date instante;
 
 //  Se não ocorre um erro de entidade transiente ao salvar um pedido e seu pagamento. Quem estoura esse erro é o JPA.
-    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

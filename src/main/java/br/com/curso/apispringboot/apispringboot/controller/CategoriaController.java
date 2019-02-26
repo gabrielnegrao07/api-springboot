@@ -4,13 +4,10 @@ import br.com.curso.apispringboot.apispringboot.domain.Categoria;
 import br.com.curso.apispringboot.apispringboot.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -23,5 +20,18 @@ public class CategoriaController {
     public ResponseEntity<?> find(@PathVariable Integer id){
         Categoria categoria = categoriaService.find(id);
         return ResponseEntity.ok().body(categoria);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody Categoria categoria){
+        categoria = categoriaService.insert(categoria);
+//      Serve para retornar a URI da nova categoria inserida
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(categoria.getId()).toUri();
+//        O método build serve para gerar a resposta
+        return ResponseEntity.created(uri).build();
+
+
+
     }
 }
