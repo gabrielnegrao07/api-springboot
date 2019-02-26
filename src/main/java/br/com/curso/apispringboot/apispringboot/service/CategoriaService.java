@@ -2,8 +2,10 @@ package br.com.curso.apispringboot.apispringboot.service;
 
 import br.com.curso.apispringboot.apispringboot.domain.Categoria;
 import br.com.curso.apispringboot.apispringboot.repositories.CategoriaRepository;
+import br.com.curso.apispringboot.apispringboot.service.Exception.DataIntegrityException;
 import br.com.curso.apispringboot.apispringboot.service.Exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,6 +40,15 @@ public class CategoriaService {
     public Categoria update(Categoria categoria){
         find(categoria.getId());
         return categoriaRepository.save(categoria);
+    }
 
+    public void delete(Integer id){
+        find(id);
+        try{
+            categoriaRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos.");
+        }
     }
 }
