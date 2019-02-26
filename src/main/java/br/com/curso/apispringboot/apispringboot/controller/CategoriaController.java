@@ -5,7 +5,6 @@ import br.com.curso.apispringboot.apispringboot.dto.CategoriaDTO;
 import br.com.curso.apispringboot.apispringboot.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
