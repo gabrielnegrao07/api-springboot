@@ -1,6 +1,7 @@
 package br.com.curso.apispringboot.apispringboot.service;
 
 import br.com.curso.apispringboot.apispringboot.domain.Categoria;
+import br.com.curso.apispringboot.apispringboot.dto.CategoriaDTO;
 import br.com.curso.apispringboot.apispringboot.repositories.CategoriaRepository;
 import br.com.curso.apispringboot.apispringboot.service.Exception.DataIntegrityException;
 import br.com.curso.apispringboot.apispringboot.service.Exception.ObjectNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,4 +53,9 @@ public class CategoriaService {
             throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos.");
         }
     }
+
+    public List<Categoria> findAll() {
+        return categoriaRepository.findAll();
+    }
+
 }
