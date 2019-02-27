@@ -2,13 +2,16 @@ package br.com.curso.apispringboot.apispringboot.controller;
 
 import br.com.curso.apispringboot.apispringboot.domain.Cliente;
 import br.com.curso.apispringboot.apispringboot.dto.ClienteDTO;
+import br.com.curso.apispringboot.apispringboot.dto.ClienteNewDTO;
 import br.com.curso.apispringboot.apispringboot.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,17 @@ public class ClienteController {
     public ResponseEntity<Cliente> find(@PathVariable Integer id){
         Cliente cliente = clienteService.find(id);
         return ResponseEntity.ok().body(cliente);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO clienteNewDTO){
+        Cliente cliente = clienteService.fromDTO(clienteNewDTO);
+        cliente = clienteService.insert(cliente);
+//      Serve para retornar a URI da nova cliente inserida
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(cliente.getId()).toUri();
+//        O método build serve para gerar a resposta
+        return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)

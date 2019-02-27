@@ -1,6 +1,5 @@
 package br.com.curso.apispringboot.apispringboot.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
