@@ -19,7 +19,8 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipo;
 
-    @OneToMany(mappedBy="cliente")
+//    O comportamento adicionado CascadeType serve que toda operação feita em cliente reflita em cascata nos endereços.
+    @OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection
