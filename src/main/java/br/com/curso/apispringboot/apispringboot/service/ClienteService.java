@@ -25,10 +25,10 @@ public class ClienteService {
               "Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
     }
 
-    public Cliente update(Cliente cliente){
-        Cliente clienteUp = find(cliente.getId());
-        updateData(clienteUp, cliente);
-        return clienteRepository.save(clienteUp);
+    public Cliente update(Cliente clienteUp){
+        Cliente cliente = find(clienteUp.getId());
+        updateData(cliente, clienteUp);
+        return clienteRepository.save(cliente);
     }
 
     public void delete(Integer id){
@@ -37,7 +37,7 @@ public class ClienteService {
             clienteRepository.deleteById(id);
         }
         catch (DataIntegrityViolationException e){
-            throw new DataIntegrityException("Não é possível excluir uma cliente que possui produtos.");
+            throw new DataIntegrityException("Não é possível excluir por há entidades relacionadas.");
         }
     }
 
@@ -55,8 +55,8 @@ public class ClienteService {
         return new Cliente(obj.getId(), obj.getNome(), obj.getEmail(), null, null);
     }
 
-    private void updateData(Cliente clienteUp, Cliente cliente){
-        clienteUp.setNome(cliente.getNome());
-        clienteUp.setEmail(cliente.getEmail());
+    private void updateData(Cliente cliente, Cliente clienteUp){
+        cliente.setNome(clienteUp.getNome());
+        cliente.setEmail(clienteUp.getEmail());
     }
 }
