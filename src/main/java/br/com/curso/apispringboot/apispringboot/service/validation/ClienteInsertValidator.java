@@ -1,17 +1,22 @@
 package br.com.curso.apispringboot.apispringboot.service.validation;
 
 import br.com.curso.apispringboot.apispringboot.controller.exception.FieldMessage;
+import br.com.curso.apispringboot.apispringboot.domain.Cliente;
 import br.com.curso.apispringboot.apispringboot.domain.enums.TipoCliente;
 import br.com.curso.apispringboot.apispringboot.dto.ClienteNewDTO;
+import br.com.curso.apispringboot.apispringboot.repositories.ClienteRepository;
 import br.com.curso.apispringboot.apispringboot.service.validation.utils.BR;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+
+    @Autowired
+    ClienteRepository clienteRepository;
 
     @Override
     public void initialize(ClienteInsert ann) {
@@ -29,6 +34,10 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
             list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
         }
 
+        Cliente aux = clienteRepository.findByEmail(obj.getEmail());
+        if (aux != null){
+            list.add(new FieldMessage("email", "Email já existente"));
+        }
 
 //        Nesse for eu adiciono a minha lista de erros personalizada a lista de erros do framework.
         for (FieldMessage e : list) {
