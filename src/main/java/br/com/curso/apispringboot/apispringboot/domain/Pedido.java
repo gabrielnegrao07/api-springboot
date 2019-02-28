@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 public class Pedido implements Serializable {
@@ -99,6 +98,28 @@ public class Pedido implements Serializable {
 
     public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append("Pedido número: ");
+        buffer.append(getId());
+        buffer.append(", Instante: ");
+        buffer.append(sdf.format(getInstante()));
+        buffer.append(", Cliente: ");
+        buffer.append(getCliente().getNome());
+        buffer.append(", Situação do pagamento: ");
+        buffer.append(getPagamento().getEstado().getDescricao());
+        buffer.append("\nDetalhes:\n");
+        for (ItemPedido ip : getItens()){
+            buffer.append(ip.toString());
+        }
+        buffer.append("Valor total: ");
+        buffer.append(nf.format(getValorTotal()));
+        return buffer.toString();
     }
 
     @Override
