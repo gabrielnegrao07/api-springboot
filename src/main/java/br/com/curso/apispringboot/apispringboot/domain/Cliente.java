@@ -1,11 +1,13 @@
 package br.com.curso.apispringboot.apispringboot.domain;
 
+import br.com.curso.apispringboot.apispringboot.domain.enums.Perfil;
 import br.com.curso.apispringboot.apispringboot.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cliente implements Serializable {
@@ -24,7 +26,7 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private String senha;
 
-//    O comportamento adicionado CascadeType serve que toda operação feita em cliente reflita em cascata nos endereços.
+//  O comportamento adicionado CascadeType serve que toda operação feita em cliente reflita em cascata nos endereços.
     @OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
@@ -32,11 +34,16 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name="PERFIS")
+    Set<Integer> perfils = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
@@ -46,6 +53,7 @@ public class Cliente implements Serializable {
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipo = (tipo == null) ? null : tipo.getCod();
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Integer getId() {
@@ -94,6 +102,14 @@ public class Cliente implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Set<Perfil> getPerfis(){
+        return perfils.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil){
+        perfils.add(perfil.getCod());
     }
 
     public List<Endereco> getEnderecos() {
