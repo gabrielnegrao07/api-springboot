@@ -1,14 +1,14 @@
-package br.com.curso.apispringboot.apispringboot.domain;
+package br.com.curso.apispringboot.apispringboot.dto;
 
 import java.io.Serializable;
 
-public class CredenciasDTO implements Serializable {
+public class CredenciaisDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String email;
     private String senha;
 
-    public CredenciasDTO(){
+    public CredenciaisDTO(){
     }
 
     public String getEmail() {

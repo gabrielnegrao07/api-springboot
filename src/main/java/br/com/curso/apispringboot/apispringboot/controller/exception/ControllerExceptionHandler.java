@@ -1,5 +1,6 @@
 package br.com.curso.apispringboot.apispringboot.controller.exception;
 
+import br.com.curso.apispringboot.apispringboot.service.Exception.AuthorizationException;
 import br.com.curso.apispringboot.apispringboot.service.Exception.DataIntegrityException;
 import br.com.curso.apispringboot.apispringboot.service.Exception.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -40,6 +41,13 @@ public class ControllerExceptionHandler {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> objectNotFound(AuthorizationException e, HttpServletRequest request){
+
+        StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
 }

@@ -1,8 +1,7 @@
 package br.com.curso.apispringboot.apispringboot.security;
 
-import br.com.curso.apispringboot.apispringboot.domain.CredenciasDTO;
+import br.com.curso.apispringboot.apispringboot.dto.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,7 +33,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse response) throws AuthenticationException {
         try {
 //          Aqui o framework tenta instanciar um objeto do tipo CredenciaisDTO a partir dos dados que vieram na requisição.
-            CredenciasDTO creds = new ObjectMapper().readValue(request.getInputStream(), CredenciasDTO.class);
+            CredenciaisDTO creds = new ObjectMapper().readValue(request.getInputStream(), CredenciaisDTO.class);
 
 //            Spring Security não JWT
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),
