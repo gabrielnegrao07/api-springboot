@@ -1,5 +1,6 @@
 package br.com.curso.apispringboot.apispringboot.service;
 
+import br.com.curso.apispringboot.apispringboot.domain.Cliente;
 import br.com.curso.apispringboot.apispringboot.domain.Pedido;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -14,4 +15,6 @@ public interface EmailService {
     void sendOrderConfirmationHtmlEmail(Pedido pedido);
 
     void sendHtmlEmail(MimeMessage msg);
+
+    void sendNewPasswordEmail(Cliente cliente, String newPass);
 }

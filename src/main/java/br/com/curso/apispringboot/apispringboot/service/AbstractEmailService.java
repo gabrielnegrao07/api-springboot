@@ -1,5 +1,6 @@
 package br.com.curso.apispringboot.apispringboot.service;
 
+import br.com.curso.apispringboot.apispringboot.domain.Cliente;
 import br.com.curso.apispringboot.apispringboot.domain.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,7 @@ public abstract class AbstractEmailService implements EmailService {
     public void sendOrderConfirmationEmail(Pedido pedido) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(pedido);
         sendEmail(sm);
-        }
+    }
 
     protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
         SimpleMailMessage sm = new SimpleMailMessage();
@@ -63,10 +64,27 @@ public abstract class AbstractEmailService implements EmailService {
 
     }
 
-    protected String htmlFromTemplatePedido(Pedido pedido){
+    protected String htmlFromTemplatePedido(Pedido pedido) {
         Context context = new Context();
         context.setVariable("pedido", pedido);
         return templateEngine.process("email/confirmacaoPedido", context);
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(cliente, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Cliente cliente, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(cliente.getEmail());
+        sm.setFrom(defaultSenderEmail);
+        sm.setSubject("Solicitação de nova senha");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: " + newPass);
+        return sm;
+
     }
 }
 
